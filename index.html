@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icon-192.png" type="image/png" />
+<meta name="theme-color" content="#ffffff" />
+  <title>Time Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Time Tracker</h1>
+    
+  
+<div id="statusText" style="font-size: 2em; margin-bottom: 10px; color:blue;"></div>
+<div id="accumulatedTime" style="font-size: 1.2em; margin-bottom: 20px;"></div>
+
+<button id="startBtn">Empezar</button>
+<button id="pauseBtn" disabled>Pausa</button>
+<button id="resetBtn">Finalizar</button>
+
+<div id="statusText" style="font-size: 2em; margin-top: 20px;"></div>
+<div id="accumulatedTime" style="font-size: 1.2em; margin-bottom: 20px;"></div>
+<p id="finalMessage" style="font-weight: bold; margin-top: 20px;"></p>
+
+<button id="clearBtn">Borrar historial</button>
+
+
+<ul id="historyList"></ul>
+
+
+    <h2>Historial</h2>
+   <button id="installBtn" >Instalar app</button>
+
+    <ul id="historyList"></ul>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="boton.js"></script>
+</body>
+</html>
