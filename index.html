@@ -6,20 +6,22 @@
  <link rel="manifest" href="manifest.json" />
 <link rel="icon" href="icon-192.png" type="image/png" />
 <meta name="theme-color" content="#ffffff" />
-  <title>Time Tracker</title>
+  <title>Interpreter-PWA</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Time Tracker</h1>
+    <h1>Interpreter-PWA</h1>
     
   
 <div id="statusText" style="font-size: 2em; margin-bottom: 10px; color:blue;"></div>
 <div id="accumulatedTime" style="font-size: 1.2em; margin-bottom: 20px;"></div>
+<nav class="botones">
+    <button id="startBtn">Empezar</button>
+    <button id="pauseBtn" disabled>Pausa</button>
+    <button id="resetBtn">Finalizar</button>
+</nav>
 
-<button id="startBtn">Empezar</button>
-<button id="pauseBtn" disabled>Pausa</button>
-<button id="resetBtn">Finalizar</button>
 
 <div id="statusText" style="font-size: 2em; margin-top: 20px;"></div>
 <div id="accumulatedTime" style="font-size: 1.2em; margin-bottom: 20px;"></div>
@@ -31,8 +33,9 @@
 <ul id="historyList"></ul>
 
 
-    <h2>Historial</h2>
-   <button id="installBtn" >Instalar app</button>
+<h2>Historial</h2>
+    <textarea id="notas" placeholder="Escribí aquí tu interpretación..."></textarea>
+  <button id="install-btn" >Instalar app</button>
 
     <ul id="historyList"></ul>
   </div>

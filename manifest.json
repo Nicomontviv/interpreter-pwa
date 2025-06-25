@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Interpreter PWA",
   "short_name": "Interpreter PWA",
-  "start_url": "./",
+  "start_url": "./?v=2",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0f111a",

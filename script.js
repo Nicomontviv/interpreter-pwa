@@ -2,7 +2,7 @@ let startTime = null;
 let totalTime = 0;
 let running = false;
 
-let history = JSON.parse(localStorage.getItem('workHistory')) || [];
+let history = JSON.parse(localStorage.getItem('InterpreterWorkHistory')) || [];
 
 const statusText = document.getElementById('statusText');
 const accumulatedTime = document.getElementById('accumulatedTime');
@@ -21,6 +21,9 @@ function startTimer() {
     running = true;
     updateDisplay();
     updateButtons();
+    // Sacar cartel de "Hoy has trabajado:"
+    const finalMsg = document.getElementById('finalMessage');
+    finalMsg.style.display = 'none';
   }
 }
 
@@ -42,13 +45,14 @@ function finalizeSession() {
 
   // Mostrar cartel de "Hoy has trabajado:"
   const finalMsg = document.getElementById('finalMessage');
+  finalMsg.style.display = 'block';
   finalMsg.textContent = 'Hoy has trabajado: ' + formatTime(totalAcumulado);
 
   // Resetear acumulado
   startTime = null;
   totalTime = 0;
   history = [];
-  localStorage.removeItem('workHistory');
+  localStorage.removeItem('InterpreterWorkHistory');
 
   updateDisplay();
   renderHistory();
@@ -61,14 +65,14 @@ function finalizeSession() {
 function saveSession() {
   if (totalTime > 0) {
     history.push(totalTime);
-    localStorage.setItem('workHistory', JSON.stringify(history));
-    totalTime = 0; // ahora sí lo reseteamos
+    localStorage.setItem('InterpreterWorkHistory', JSON.stringify(history));
+    //totalTime = 0; // ahora sí lo reseteamos
   }
 }
 
 function clearHistory() {
   history = [];
-  localStorage.removeItem('workHistory');
+  localStorage.removeItem('InterpreterWorkHistory');
   renderHistory();
   avgDisplay.textContent = '';
 }
