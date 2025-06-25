@@ -1,6 +1,7 @@
 let startTime = null;
 let totalTime = 0;
 let running = false;
+let currentSessionTime = 0; // Tiempo de la sesión actual
 
 let history = JSON.parse(localStorage.getItem('InterpreterWorkHistory')) || [];
 
@@ -13,7 +14,6 @@ const startBtn = document.getElementById('startBtn');
 const pauseBtn = document.getElementById('pauseBtn');
 const resetBtn = document.getElementById('resetBtn');
 const clearBtn = document.getElementById('clearBtn');
-
 
 function startTimer() {
   if (!running) {
@@ -30,27 +30,34 @@ function startTimer() {
 function pauseTimer() {
   if (running) {
     const now = Date.now();
-    totalTime += now - startTime;
+    currentSessionTime = now - startTime; // Solo el tiempo de esta sesión
+    totalTime += currentSessionTime; // Acumular al total general
     running = false;
-    updateDisplay(); // mostrar acumulado antes de guardar
-    saveSession();
-    renderHistory();
+    
+    saveSession(); // Guardar la sesión individual
+    renderHistory(); // Actualizar el historial
+    updateDisplay(); // Mostrar tiempo acumulado total
     updateButtons();
   }
 }
 
 function finalizeSession() {
+  // Si hay una sesión en curso, guardarla primero
+  if (running) {
+    pauseTimer();
+  }
+  
   const sumHistorial = history.reduce((a, b) => a + b, 0);
-  const totalAcumulado = sumHistorial + totalTime;
 
   // Mostrar cartel de "Hoy has trabajado:"
   const finalMsg = document.getElementById('finalMessage');
   finalMsg.style.display = 'block';
-  finalMsg.textContent = 'Hoy has trabajado: ' + formatTime(totalAcumulado);
+  finalMsg.textContent = 'Hoy has trabajado: ' + formatTime(sumHistorial);
 
-  // Resetear acumulado
+  // Resetear todo
   startTime = null;
   totalTime = 0;
+  currentSessionTime = 0;
   history = [];
   localStorage.removeItem('InterpreterWorkHistory');
 
@@ -59,14 +66,10 @@ function finalizeSession() {
   updateButtons();
 }
 
-
-
-
 function saveSession() {
-  if (totalTime > 0) {
-    history.push(totalTime);
+  if (currentSessionTime > 0) {
+    history.push(currentSessionTime);
     localStorage.setItem('InterpreterWorkHistory', JSON.stringify(history));
-    //totalTime = 0; // ahora sí lo reseteamos
   }
 }
 
@@ -76,8 +79,6 @@ function clearHistory() {
   renderHistory();
   avgDisplay.textContent = '';
 }
-
-
 
 function formatTime(ms) {
   let totalSeconds = Math.floor(ms / 1000);
@@ -98,11 +99,8 @@ function updateDisplay() {
     statusText.textContent = 'DESCANSO';
     statusText.style.color = 'green';
     
-    // Sumamos todo el historial + el totalTime actual
-    const sumHistorial = history.reduce((a, b) => a + b, 0);
-    const totalAcumulado = sumHistorial + totalTime;
-
-    accumulatedTime.textContent = 'Tiempo acumulado: ' + formatTime(totalAcumulado);
+    // Mostrar el tiempo total acumulado
+    accumulatedTime.textContent = 'Tiempo acumulado: ' + formatTime(totalTime);
   }
 }
 
@@ -124,13 +122,18 @@ function updateButtons() {
   pauseBtn.disabled = !running;
 }
 
+// Actualizar display en tiempo real cuando está corriendo
+function updateLiveDisplay() {
+  if (running) {
+    updateDisplay();
+  }
+}
+
 // Eventos
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', finalizeSession);
 clearBtn.addEventListener('click', clearHistory);
-
-
 
 // Estado inicial
 renderHistory();
